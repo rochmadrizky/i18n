@@ -2,31 +2,29 @@
 
 import { useLocale } from "next-intl";
 import { useRouter } from "next/navigation";
-import { ChangeEvent, useTransition } from "react";
+import { useTransition } from "react";
 
 export default function Bahasa() {
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
   const localActive = useLocale();
 
-  const onSelectChange = (e: ChangeEvent<HTMLSelectElement>) => {
-    const nextLocale = e.target.value;
-    startTransition(() => {
-      router.replace(`/${nextLocale}`);
-    });
+  const toggleLanguage = (nextLocale: string) => {
+    if (localActive !== nextLocale) {
+      startTransition(() => {
+        router.replace(`/${nextLocale}`);
+      });
+    }
   };
+
   return (
-    <label className="border-2 rounded">
-      <p className="sr-only">change language</p>
-      <select
-        defaultValue={localActive}
-        className="bg-transparent py-2"
-        onChange={onSelectChange}
-        disabled={isPending}
+    <div>
+      <button
+        onClick={() => toggleLanguage(localActive === "en" ? "id" : "en")}
+        disabled={isPending} // Disable button during transition
       >
-        <option value="en">English</option>
-        <option value="id">Indonesian</option>
-      </select>
-    </label>
+        {localActive === "en" ? "EN" : "ID"}
+      </button>
+    </div>
   );
 }

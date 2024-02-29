@@ -1,6 +1,6 @@
 import Link from "next/link";
 import React from "react";
-import Bahasa from "./bahasa";
+import Bahasa from "./Bahasa";
 
 const Navigasi = () => {
   return (
